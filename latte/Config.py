@@ -7,7 +7,7 @@ Handles application configuration loading
 
 """
 
-import ConfigParser
+import configparser
 import os
 
 
@@ -47,7 +47,7 @@ class Config(object):
         """ Attempt to load configs from default path. """
         path = os.path.expanduser(path + '/config')
         if os.path.exists(path):
-            parser = ConfigParser.ConfigParser()
+            parser = configparser.ConfigParser()
             parser.read(path)
             self.overwrite_with_user_configs(parser)
             return True
@@ -61,21 +61,21 @@ class Config(object):
         for item in ['sleep_time', 'user_inactive_threshold']:
             self.set(item, parser.getint('main', item))
         for item in ['ignore_keywords']:
-            self.set(item, map(lambda x: unicode(x.decode('utf-8')).lower(), parser.get('main', item).split(',')))
+            self.set(item, [str(x.decode('utf-8')).lower() for x in parser.get('main', item).split(',')])
         for item in ['analyzer_output_default', 'analyzer_output_title', 
         'analyzer_output_class', 'analyzer_output_instance']:
             self.set(item, parser.get('main', item))
         for item in ['aliases']:
             aliases_dict = {}
-            aliases = map(lambda y: y.split(':'), parser.get('main', item).split(','))
+            aliases = [y.split(':') for y in parser.get('main', item).split(',')]
             for alias in aliases:
-                l = map(lambda x: unicode(x.decode('utf-8')), alias)
+                l = [str(x.decode('utf-8')) for x in alias]
                 aliases_dict[l[0]] = l[1]
             self.set('aliases', aliases_dict)
 
     def get(self, item):
         """ Fetches config item from the list. """
-        if item in self.config.keys():
+        if item in list(self.config.keys()):
             return self.config[item]
         return None
 

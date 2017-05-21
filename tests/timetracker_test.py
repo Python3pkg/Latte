@@ -47,43 +47,43 @@ class testTimeTracker(unittest.TestCase):
     def testGettingEmptyLog(self):
         """ Tests if getWindowTime with empty log returns None """
 
-        self.assertEqual(self.timetracker.get_window_time(u'Bogus'), None)
+        self.assertEqual(self.timetracker.get_window_time('Bogus'), None)
 
     def testAddTimeToNonExistingWindows(self):
         """ Test adding time to non existing window titles """
 
-        window = u'Non existing window 1'
-        window_class = u'New class'
-        window_instance = u'New instance'
+        window = 'Non existing window 1'
+        window_class = 'New class'
+        window_instance = 'New instance'
         self.timetracker.log(window, window_class, window_instance)
         self.assertEqual(self.timetracker.get_window_time(window), self.config.get('sleep_time'))
 
     def testAddTimeToExistingWindows(self):
-        window = u'Testing Window 1'
-        window_class = u'Window class 1'
-        window_instance = u'Instance 1'
+        window = 'Testing Window 1'
+        window_class = 'Window class 1'
+        window_instance = 'Instance 1'
         self.timetracker.log(window, window_class, window_instance)
         self.timetracker.log(window, window_class, window_instance)
 
         self.assertEqual(self.timetracker.get_window_time(window), self.config.get('sleep_time') * 2)
 
     def testGetWindowStats(self):
-        window = u'Some window'
-        window_class = u'Some class'
-        window_instance = u'Some instance'
+        window = 'Some window'
+        window_class = 'Some class'
+        window_instance = 'Some instance'
         self.timetracker.log(window, window_class, window_instance)
 
         data = self.timetracker.get_window_stats(window)
         self.assertIs(type(self.timetracker.get_window_stats(window)), Log)
 
     def testContainsIgnoredKeywords(self):
-        window = u'Some string with ignored keywords'
+        window = 'Some string with ignored keywords'
         self.assertTrue(self.timetracker.contains_ignored_keywords(window))
-        window2 = u'Doesn\'t contain bad words'
+        window2 = 'Doesn\'t contain bad words'
         self.assertFalse(self.timetracker.contains_ignored_keywords(window2))
 
     def testAddLogWithIgnoredKeywords(self):
-        window = u'Some string with ignored keywords'
-        window_class = u'Window class'
-        window_instance = u'Window instance'
+        window = 'Some string with ignored keywords'
+        window_class = 'Window class'
+        window_instance = 'Window instance'
         self.assertFalse(self.timetracker.log(window, window_class, window_instance))

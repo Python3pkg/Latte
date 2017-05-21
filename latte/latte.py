@@ -68,7 +68,7 @@ class Latte(object):
 
     def output(self, text):
         if not self.silent:
-            print text
+            print(text)
 
 def has_required_dependencies():
     """ Checks whether the system has required dependencies """
@@ -106,10 +106,10 @@ def get_active_window_data():
         results = [title, window_class, window_instance]
         unicode_results = []
         for i in results:
-            unicode_results.append(unicode(i.decode('utf-8')))
+            unicode_results.append(str(i.decode('utf-8')))
         return unicode_results
     except:
-        return [u'', u'', u'']
+        return ['', '', '']
 
 
 if __name__ == '__main__':
